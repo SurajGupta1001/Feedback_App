@@ -2,7 +2,11 @@ const express = require("express")
 
 const app = express()
 
-
+// Handle static files
+app.use(express.static("public"))
+// Handle json
+app.use(express.json())
+app.use(express.urlencoded({extended: false}))
 
 const obj = [
     {
@@ -15,24 +19,8 @@ const obj = [
     }
 ]
 
-app.get('/', (req, res) => {
-    res.json(obj)
-})
-
-
-app.get('/html', (req,res) => {
-
-})
-
-app.get("/about", (req,res) => {
-    res.send("About ")
-})
-
-app.get("/contact", (req,res) => {
-
-    
-
-    res.send("<h1>Contact</h1>")
+app.get("/", (req,res, next) => {
+    res.sendFile(`${__dirname}/public/index.html`)
 })
 
 
