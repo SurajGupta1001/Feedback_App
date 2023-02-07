@@ -1,39 +1,17 @@
+
 const express = require("express")
 
 const app = express()
 
+// This middleware 
+app.use(express.static("public"))
+
+// This middleware handle json data
+app.use(express.json())
+app.use(express.urlencoded({extended:false}))
 
 
-const obj = [
-    {
-        name: "max",
-        age: 100
-    },
-    {
-        name: "jhon",
-        age: 23
-    }
-]
 
-app.get('/', (req, res) => {
-    res.json(obj)
-})
-
-
-app.get('/html', (req,res) => {
-
-})
-
-app.get("/about", (req,res) => {
-    res.send("About ")
-})
-
-app.get("/contact", (req,res) => {
-
-    
-
-    res.send("<h1>Contact</h1>")
-})
 
 
 
