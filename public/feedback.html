@@ -1,17 +1,72 @@
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Feedback Form</h1>
-    <form action="/feedback" method="POST">
-       Name: <input type="text" name="username" placeholder="Enter Your Name"/><br>
-       Email: <input type="email" name="email" placeholder="Enter Your Email"><br>
-        <textarea placeholder="Your Feedback" name="feedback"  cols="30" rows="10" required></textarea><br>
-        <button type="submit">Submit</button>
-    </form>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback Form</title>
+    <style>
+        body{
+            font-family: 'Roboto';
+        }
+      .form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      .form-container form {
+        width: 500px;
+        padding: 30px;
+        background-color: white;
+        box-shadow: 0px 0px 10px 2px lightgray;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .form-container form input[type='text'],
+      .form-container form input[type='email'],
+      .form-container form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0px 0px 5px 1px lightgray;
+        font-size: 18px;
+      }
+
+      .form-container form input[type='submit'] {
+        padding: 10px 20px;
+        background-color: #0c5460;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 18px;
+        cursor: pointer;
+      }
+
+      .form-container form input[type='submit']:hover {
+        background-color: #1c7480;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="form-container">
+      <form action="/feedback" method="post">
+        <h1>Give Your Feedback</h1>
+        <input type="text" name="name" placeholder="Enter your name" />
+        <input type="email" name="email" placeholder="Enter your email" />
+        <textarea rows="8" name="feedback" placeholder="Enter your feedback"></textarea>
+        <input type="submit" value="Submit Feedback" />
+      </form>
+    </div>
+  </body>
 </html>
