@@ -59,6 +59,10 @@ app.get("/", (req,res, next) => {
 
 
 app.get("/admin",(req,res,next) => {
+
+    if(req.cookies.isAuthenticated){
+        return res.redirect("/all-feedback")
+    }
     res.sendFile(`${__dirname}/public/admin-login.html`)
 })
 
@@ -67,12 +71,13 @@ app.post('/admin/login', async(req,res,next) => {
     const password = req.body.password;
 
     const admin = await Admin.find({
-        
+ 
         name: username,
         password: password
     })
-    console.log(admin) 
-    if(admin){
+
+     
+    if(admin.length > 0){
         res.cookie("isAuthenticated", true)
        return res.redirect('/all-feedback')
     }
