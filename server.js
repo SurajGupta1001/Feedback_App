@@ -1,7 +1,8 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const cookieParser = require("cookie-parser")
-
+const dotenv = requrie("dotenv")
+dotenv.configure();
 
 const app = express()
 
@@ -45,10 +46,13 @@ app.get("/all-feedback", authMiddleware, (req,res,next) => {
 app.post("/feedback", feedbackController.postFeedback)
 
 
+
+
+const port = process.env.PORT || 3000;
 const startServer = async() => {
-    await mongoose.connect("mongodb+srv://SurajGupta1001:root@cluster0.ntowqpv.mongodb.net/feedback")
+    await mongoose.connect(process.env.MONGO_URI)
     console.log("Database Connected...")
-    app.listen(3000, () => console.log("Server started at http://localhost:3000"))
+    app.listen(port, () => console.log("Server started at http://localhost:3000"))
 }
 
 startServer();
