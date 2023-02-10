@@ -1,5 +1,10 @@
 const express = require("express")
 const mongoose = require("mongoose")
+
+// Import Cookie Parser
+const cookieParser = require("cookie-parser")
+
+
 const app = express()
 
 // Handle static files
@@ -8,18 +13,21 @@ app.use(express.static("public"))
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
+// Setting Middleware to use cookies
+app.use(cookieParser())
+
 //--------------------------------------- Database -------------------------------//
 
-  // Define a schema for the feedback data
-  const feedbackSchema = new mongoose.Schema({
+// Define a schema for the feedback data
+const feedbackSchema = new mongoose.Schema({
     name: String,
     email: String,
     feedback: String,
-  });
+});
 
-  // Create a model for the feedback data
+// Create a model for the feedback data
   const Feedback = mongoose.model("Feedback",feedbackSchema)
-  //------------------------------------------------------------------------------//
+//------------------------------------------------------------------------------//
 
 
 app.get("/", (req,res, next) => {
@@ -31,25 +39,54 @@ app.get("/admin",(req,res,next) => {
     res.sendFile(`${__dirname}/public/admin-login.html`)
 })
 
-app.post('/auth', (req,res,next) => {
+app.post('/admin/login', (req,res,next) => {
     const username = req.body.username;
     const password = req.body.password;
 
     if(username === "suraj" && password === "root"){
-        res.redirect('/feedback')
+        res.cookie("isAuthenticated", true)
+        res.redirect('/all-feedback')
     }
-
-    res.send("Unauthorized")
+    res.send("Unauthorized User")
 })
 
 
-app.get('/feedback', async(req,res,next) =>{
+const authMiddleware = (req,res,next) => {
+    const isAuthenticated = req.cookies.isAuthenticated;
+    if(isAuthenticated){
+        next();
+    }else{
+        return res.send("Unauthorised User")
+    }
+}
+
+
+// Protected Routes
+app.get('/feedbacks', authMiddleware, async(req,res,next) =>{
     const feedbacks = await Feedback.find();
     return res.json(feedbacks)
 })
 
+
+
+
+
+app.get("/all-feedback", authMiddleware, (req,res,next) => {
+    res.sendFile(`${__dirname}/public/feedbacks.html`)
+})
+
+
+
+
+app.post("/logout", (req,res,next) => {
+    res.clearCookie("isAuthenticated")
+    return res.redirect("/admin")
+})
+
+
+
 app.post("/feedback",async (req,res, next) => {
-    const name = req.body.username;
+    const name = req.body.name;
     const email =  req.body.email;
     const feedback = req.body.feedback;
 
@@ -60,7 +97,6 @@ app.post("/feedback",async (req,res, next) => {
     })
 
     const savedFeed = await feed.save();
-
     console.log(name, email, feedback)
     res.send(`<h1>${name} Feedback is accepted</h1>`)
 })
