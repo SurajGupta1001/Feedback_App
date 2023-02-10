@@ -25,10 +25,33 @@ const feedbackSchema = new mongoose.Schema({
     feedback: String,
 });
 
+//schema for admin
+const adminschema = new mongoose.Schema({
+    name: String,
+    password: String
+});
+
 // Create a model for the feedback data
   const Feedback = mongoose.model("Feedback",feedbackSchema)
+  //model for adminschema
+  const Admin = mongoose.model("Admin",adminschema)
 //------------------------------------------------------------------------------//
 
+//Register admin
+app.get("/register", (req,res,next) => {
+    res.sendFile(`${__dirname}/public/register-admin.html`)
+})
+
+app.post("/register", async(req,res,next) => {
+    const name = req.body.name
+    const pwd = req.body.password
+    const admin = new Admin({
+        name: name,
+        password: pwd
+    })
+    const savedadmin = await admin.save()
+    return res.send(`${name} is Registerd`)
+})
 
 app.get("/", (req,res, next) => {
     res.sendFile(`${__dirname}/public/feedback.html`)
