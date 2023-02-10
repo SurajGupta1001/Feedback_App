@@ -62,13 +62,19 @@ app.get("/admin",(req,res,next) => {
     res.sendFile(`${__dirname}/public/admin-login.html`)
 })
 
-app.post('/admin/login', (req,res,next) => {
+app.post('/admin/login', async(req,res,next) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    if(username === "suraj" && password === "root"){
+    const admin = await Admin.find({
+        
+        name: username,
+        password: password
+    })
+    console.log(admin) 
+    if(admin){
         res.cookie("isAuthenticated", true)
-        res.redirect('/all-feedback')
+       return res.redirect('/all-feedback')
     }
     res.send("Unauthorized User")
 })
