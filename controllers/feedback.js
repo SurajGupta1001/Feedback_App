@@ -1,18 +1,16 @@
 const Feedback = require("../model/feedback.model.js")
 
-const getFeedbackForm = (req,res, next) => {
-    res.sendFile(`${__dirname}/../public/feedback.html`)
+const getFeedbackForm =  (req,res, next) => {
+    res.render("feedback.ejs",{})
 }
 
-const getFeedbacks = async(req,res,next) =>{
-    const feedbacks = await Feedback.find();
-    return res.json(feedbacks)
+const getFeedbackAllHtml = async(req,res,next) => {
+    const feedbacks = await Feedback.find()
+    return res.render("feedbacks.ejs",{
+        feedbacks: feedbacks
+    })
 }
 
-const getAllFeedback = async(req,res,next) =>{
-    const feedbacks = await Feedback.find();
-    return res.json(feedbacks)
-}
 
 const postFeedback = async (req,res, next) => {
     const name = req.body.name;
@@ -33,4 +31,4 @@ const postFeedback = async (req,res, next) => {
 
 
 
-module.exports = {getFeedbackForm, getFeedbacks, getAllFeedback, postFeedback }
+module.exports = {getFeedbackForm, postFeedback, getFeedbackAllHtml }

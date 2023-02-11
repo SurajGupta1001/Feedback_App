@@ -21,7 +21,7 @@ const getLoginAdmin = (req,res,next) => {
     if(req.cookies.isAuthenticated){
         return res.redirect("/all-feedback")
     }
-    res.sendFile(`${__dirname}/public/admin-login.html`)
+    res.render("admin-login.ejs",{})
 }
 
 const postLoginAdmin =  async(req,res,next) => {
