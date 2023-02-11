@@ -27,7 +27,8 @@ const postFeedback = async (req,res, next) => {
 
     const savedFeed = await feed.save();
     console.log(name, email, feedback)
-    res.send(`<h1>${name} Feedback is accepted</h1>`)
+    res.send(`<h1 style="display:inline; font-size: 20px; font-weight: bold; color: green;">&#10003; Thank you ${name} , for submitting your feedback!</h1>
+    `)
 }
 
 
