@@ -7,7 +7,6 @@ dotenv.config()
 const app = express()
 
 app.use(express.static("public"))
-
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
@@ -16,8 +15,6 @@ app.use(cookieParser())
 const adminController = require("./controllers/admin.js")
 const feedbackController = require("./controllers/feedback")
 const authMiddleware = require("./middleware/authmiddleware")
-
-  
 
 
 app.post("/logout", adminController.postLogout )
@@ -34,8 +31,6 @@ app.get("/admin", (req,res,next) => {
 })
 app.post('/admin/login', adminController.postLoginAdmin)
 
-
-
 app.get("/", (req,res, next) => {
     res.sendFile(`${__dirname}/public/feedback.html`)
 })
@@ -44,9 +39,6 @@ app.get("/all-feedback", authMiddleware, (req,res,next) => {
     res.sendFile(`${__dirname}/public/feedbacks.html`)
 })
 app.post("/feedback", feedbackController.postFeedback)
-
-
-
 
 const port = process.env.PORT || 3000;
 const startServer = async() => {

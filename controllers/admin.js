@@ -29,12 +29,10 @@ const postLoginAdmin =  async(req,res,next) => {
     const password = req.body.password;
 
     const admin = await Admin.find({
- 
         name: username,
         password: password
     })
 
-     
     if(admin.length > 0){
         res.cookie("isAuthenticated", true)
        return res.redirect('/all-feedback')
