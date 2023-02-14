@@ -17,24 +17,15 @@ app.use(morgan("tiny"))
 // setting ejs
 app.set("view engine", "ejs");
 app.set("views", "views");
+const authRoutes = require("./rotues/authRoutes")
+const feedbackRoutes = require("./rotues/feedbackRoute")
 
-
-const adminController = require("./controllers/admin.js")
-const feedbackController = require("./controllers/feedback")
-const authMiddleware = require("./middleware/authmiddleware")
 
   
+app.use(authRoutes)
+app.use(feedbackRoutes)
 
 
-app.post("/logout", adminController.postLogout )
-app.post("/register", adminController.postRegisterAdmin)
-app.get("/admin", adminController.getLoginAdmin)
-app.post('/admin/login', adminController.postLoginAdmin)
-
-
-app.get("/",feedbackController.getFeedbackForm)
-app.get("/all-feedback", authMiddleware,feedbackController.getFeedbackAllHtml)
-app.post("/feedback", feedbackController.postFeedback)
 
 
 app.use((req,res,next) => {
